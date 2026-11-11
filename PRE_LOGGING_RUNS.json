@@ -1,0 +1,71 @@
+{
+  "notice": "These summaries were recovered from terminal output shown before harness_results.log was implemented. The original process output was not persisted; this file is an honest reconstruction, not a byte-for-byte raw log. Neither run is used for the final production verdict.",
+  "runs": [
+    {
+      "run_prefix": "chaos-7e3f8606c8974da398d5d2ee0b06b78f-",
+      "result": "failed_before_load",
+      "summary": {
+        "actual_run_jobs": 0,
+        "cancellation_requests": 0,
+        "expected_unique_jobs": 10000,
+        "invariants": {
+          "at_least_one_worker_killed": false,
+          "zero_jobs_lost": false,
+          "zero_jobs_stuck_running": true,
+          "zero_jobs_with_multiple_side_effects": true
+        },
+        "jobs_stuck_running": 0,
+        "jobs_with_multiple_side_effects": 0,
+        "missing_jobs": 10000,
+        "passed": false,
+        "post_requests": 0,
+        "request_errors": 1,
+        "run_prefix": "chaos-7e3f8606c8974da398d5d2ee0b06b78f-",
+        "sample_errors": [
+          "API health check failed: http://127.0.0.1:18080/healthz"
+        ],
+        "side_effect_total": 0,
+        "status_counts": {},
+        "unexpected_or_duplicate_keys": 0,
+        "unexpected_worker_exits": 0,
+        "unfinished_jobs": 0,
+        "worker_kills": 0,
+        "worker_processes_started": 0
+      },
+      "cause": "The readiness probe parsed the plain-text health response as JSON. The probe was changed to check HTTP status only."
+    },
+    {
+      "run_prefix": "chaos-106ab905e17a4c9b8547abfff8fb6907-",
+      "result": "passed_unmetered",
+      "summary": {
+        "actual_run_jobs": 10000,
+        "cancellation_requests": 10124,
+        "expected_unique_jobs": 10000,
+        "invariants": {
+          "at_least_one_worker_killed": true,
+          "zero_jobs_lost": true,
+          "zero_jobs_stuck_running": true,
+          "zero_jobs_with_multiple_side_effects": true
+        },
+        "jobs_stuck_running": 0,
+        "jobs_with_multiple_side_effects": 0,
+        "missing_jobs": 0,
+        "passed": true,
+        "post_requests": 20000,
+        "request_errors": 0,
+        "run_prefix": "chaos-106ab905e17a4c9b8547abfff8fb6907-",
+        "side_effect_total": 4567,
+        "status_counts": {
+          "cancelled": 5433,
+          "succeeded": 4567
+        },
+        "unexpected_or_duplicate_keys": 0,
+        "unexpected_worker_exits": 0,
+        "unfinished_jobs": 0,
+        "worker_kills": 32,
+        "worker_processes_started": 40
+      },
+      "limitations": "The initial harness had no fixed-rate scheduler, latency/status/pool logging, or persistent log file. Its request rate and latency cannot be inferred from this output."
+    }
+  ]
+}

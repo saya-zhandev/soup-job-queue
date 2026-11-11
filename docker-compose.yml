@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: soup
+      POSTGRES_PASSWORD: soup_password
+      POSTGRES_DB: ${POSTGRES_DB:-job_queue}
+    ports:
+      - "${POSTGRES_HOST_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./schema.sql:/docker-entrypoint-initdb.d/001-schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: soup
+      DB_PASSWORD: soup_password
+      DB_NAME: ${POSTGRES_DB:-job_queue}
+      WORKER_COUNT: ${WORKER_COUNT:-4}
+      ENABLE_DB_STATS_ENDPOINT: ${ENABLE_DB_STATS_ENDPOINT:-false}
+    ports:
+      - "${APP_HOST_PORT:-8080}:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
